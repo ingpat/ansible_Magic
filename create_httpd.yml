@@ -1,0 +1,31 @@
+---
+
+- name: Install and start apache
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Apache on almalinux
+      yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == "Redhat"
+
+    - name: start Apache on debian family  
+      apt:
+        name: apache2
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Start Apache service on almalinux
+      command: apache2ctl start
+      args:
+        creates: /var/run/apache2/apache2.pid
+      when: ansible_os_family == "Debian"
+    - name: Start Apache service sur alma linux
+      service:
+        name: httpd
+        state: started
+        enable: true
+      when: ansible_os_family == "Redhat"
+
+    

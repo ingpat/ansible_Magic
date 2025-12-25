@@ -1,0 +1,11 @@
+---
+
+- hosts: vm_servers
+  tasks:
+    - name: create user detty
+      ansible.builtin.user:
+        name: detty
+        groups: wheel
+        shell: /bin/bash
+        comment: the wife
+        state: present
